@@ -62,4 +62,4 @@ comment these packages if you do not need, or it may fail your emacs startup
 
 ** Thanks to
 
-- [[https://github.com/yuanbohan][bobo]], I encountered Emacs
+- [[https://github.com/yuanbohan][bobo]], I encountered Emacs and Forked his repo at the begining
