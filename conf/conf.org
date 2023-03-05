@@ -9,6 +9,7 @@
 | C-c C-k                | copy-line                                          |
 | C-c r                  | browse-at-remote                                   |
 | C-x C-q                | Toggles read only mode                             |
+# attention: for MacOS, the SPC is map to @
 | C-c C-SPC              | whitespace-cleanup                                 |
 | C-x /                  | google this                                        |
 | M-\                    | delete-horizontal-space                            |
@@ -65,6 +66,22 @@
 |------------------------+----------------------------------------------------|
 | Org mode               | TODO                                               |
 |------------------------+----------------------------------------------------|
+
+
+* basic conf
+
+#+begin_src elisp
+(setq confirm-kill-emacs #'yes-or-no-p)      ; 在关闭 Emacs 前询问是否确认关闭，防止误触
+(electric-pair-mode t)                       ; 自动补全括号
+(add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
+(column-number-mode t)                       ; 在 Mode line 上显示列号
+(global-auto-revert-mode t)                  ; 当另一程序修改了文件时，让 Emacs 及时刷新 Buffer
+(delete-selection-mode t)                    ; 选中文本后输入文本会替换文本
+(setq inhibit-startup-message t)             ; 关闭启动 Emacs 时的欢迎界面
+(setq make-backup-files nil)                 ; 关闭文件自动备份
+(add-hook 'prog-mode-hook #'hs-minor-mode)   ; 编程模式下，可以折叠代码块
+(global-display-line-numbers-mode 1)         ; 在 Window 显示行号
+#+end_src
 
 * speed init
 
@@ -123,7 +140,7 @@ find which makes init slow
   ;; M-x do-auto-save   : perform an auto-save explicitly
   ;; M-x auto-save-mode : To toggle auto-saving in the current buffer
   (setq auto-save-default t)
-  ;; (setq auto-save-timeout 2)
+  (setq auto-save-timeout 2)
   ;; (setq auto-save-interval 20)
   ;; (setq auto-save-visited-mode t)
   ;; (setq auto-save-visited-interval 2)
@@ -256,7 +273,7 @@ https://fonts.google.com/specimen/Ubuntu+Mono
     :ensure t
     :config
     (beacon-mode 1)
-    ;; (setq beacon-blink-duration 0.5)
+    (setq beacon-blink-duration 2)
     ;; (setq beacon-color "green")
     )
 #+END_SRC
@@ -361,13 +378,13 @@ https://github.com/Malabarba/smart-mode-line
 #+END_SRC
 
 #+begin_src elisp
-  ;; M-x all-the-icons-install-fonts
-  (use-package all-the-icons
-    :ensure t)
+    ;; M-x all-the-icons-install-fonts
+    ;;(use-package all-the-icons
+    ;;  :ensure t)
 
-  (use-package doom-modeline
-    :ensure t
-    :hook (after-init . doom-modeline-mode))
+    (use-package doom-modeline
+      :ensure t
+      :hook (after-init . doom-modeline-mode))
 #+end_src
 
 #+begin_src elisp
@@ -1345,6 +1362,7 @@ C-q  (`undo-tree-visualizer-abort')
 | C-x r m | Set a bookmark   |
 | C-x r l | List bookmarks   |
 | C-x r b | Jump to bookmark |
+| M-x bookmark-delete | delete a bookmark or all |
 
 * Occur and highlight
 
@@ -1634,3 +1652,26 @@ https://github.com/oantolin/embark
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
+
+* mwim
+
+https://github.com/alezost/mwim.el
+
+#+begin_src elisp
+  (use-package mwim
+    :ensure t
+    :bind
+    ;; twice for C-a and twice for C-e, because of indentation and comment
+    ("C-a" . mwim-beginning-of-code-or-line)
+    ("C-e" . mwim-end-of-code-or-line))
+#+end_src
+
+* avy
+
+#+begin_src elisp
+  ;; (use-package avy
+  ;;   :ensure t
+  ;;   :bind
+  ;;   (("C-j C-SPC" . avy-goto-char-timer)))
+#+end_src
+
