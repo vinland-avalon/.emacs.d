@@ -170,7 +170,6 @@ Like ``printf`` in C, we use ``format`` in Lisp to print output to screen and te
 ```
 (format t "Hello, World")
 ```
-### File I/O ...
 
 
 
